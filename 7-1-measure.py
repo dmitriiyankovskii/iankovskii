@@ -105,20 +105,21 @@ try:
     t1 = time.time()
     GPIO.output(troyka, GPIO.HIGH)
     num = 0
-    while(num<=240):
+    while(num<=30):
         num = adc()
         show_leds(num)
         print(num)
         measure_data.append(num)
-        time.sleep(0.1)
+    print("я тут")
         
-    #GPIO.output(troyka, GPIO.LOW)  
-    #while(adc()>=100):
-    #    num = adc()
-     #   show_leds(num)
-     #   print(num)
-     #   measure_data.append(num)
-     #   time.sleep(0.1)
+        
+    GPIO.output(troyka, GPIO.LOW)  
+    while(adc()>=10):
+        num = adc()
+        show_leds(num)
+        print(num)
+        measure_data.append(num)
+        
         
 
     measure_data_str = [str(item) for item in measure_data]
