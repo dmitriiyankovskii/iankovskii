@@ -20,7 +20,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
 
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=128
         num+=64
     else:
@@ -29,7 +29,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
     
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=64
         num+=32
     else:
@@ -38,7 +38,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
 
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=32
         num+=16
     else:
@@ -47,7 +47,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
 
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=16
         num+=8
     else:
@@ -56,7 +56,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
 
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=8
         num+=4
     else:
@@ -65,7 +65,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
 
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=4
         num+=2
     else:
@@ -74,7 +74,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
         
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=2
         num+=1
     else:
@@ -83,7 +83,7 @@ def adc():
     GPIO.output(dac, decimal2binary(num))
     time.sleep(0.001)
 
-    if(GPIO.input(comp) == 0):
+    if(GPIO.input(comp) == 1):
         num-=1
     else:
         num+= 0
@@ -105,28 +105,32 @@ try:
     t1 = time.time()
     GPIO.output(troyka, GPIO.HIGH)
     num = 0
-    while(num<=30):
+    while(num<=200):
         num = adc()
         show_leds(num)
-        print(num)
         measure_data.append(num)
-    print("я тут")
         
         
     GPIO.output(troyka, GPIO.LOW)  
-    while(adc()>=10):
+    while(adc()>=193):
         num = adc()
         show_leds(num)
-        print(num)
         measure_data.append(num)
         
-        
+    t2 = time.time()
+    duration = t2 - t1
+    T = duration/len(measure_data)
+    q = 1/T
+    qs = 3.3/256
+    print("Частота: ", q)
+    print("шаг квантования: ", qs)
+    print("время измерений: ", duration)   
 
     measure_data_str = [str(item) for item in measure_data]
     with open("data.txt", "w") as f:
         f.write("\n".join(measure_data_str))    
-    #plt.plot(data.txt) 
-    #plt.show()
+    plt.plot(data.txt) 
+    plt.show()
 finally:
     GPIO.output(dac, 0)
     GPIO.output(troyka, 0)
