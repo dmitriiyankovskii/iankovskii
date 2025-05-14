@@ -29,7 +29,7 @@ ax.grid(which='minor', color='gray', linestyle=':', linewidth=0.3, alpha=0.3)
 
 plt.text(
     1, 1,
-    f"Время зарядки:  сек\nВремя разрядки:  сек",
+    f"Время зарядки:  4.5 сек\nВремя разрядки: 5.5 сек",
     fontsize=10,
     bbox=dict(facecolor='white', edgecolor='gray', alpha=0.7, boxstyle='round')
 )
